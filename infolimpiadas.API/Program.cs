@@ -1,11 +1,17 @@
+using infOlimpiadas.Infra;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AtletaDbContext>();
+builder.Services.AddDbContext<MedalhaDbContext>();
+builder.Services.AddDbContext<ModalidadeDbContext>();
+builder.Services.AddDbContext<PaisDbContext>();
+builder.Services.AddDbContext<UsuarioDbContext>();
 
 var app = builder.Build();
 
