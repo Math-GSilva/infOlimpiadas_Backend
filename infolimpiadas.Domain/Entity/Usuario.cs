@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using infolimpiadas.Domain.Repository;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace infolimpiadas.Domain.Entity
 {
     [Table("Usuario")]
-    public class Usuario
+    public class Usuario : IEntity<int>
     {
         [Key]
         public int Id { get; set; }

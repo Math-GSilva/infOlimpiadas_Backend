@@ -4,11 +4,9 @@ namespace infolimpiadas.Domain.Repository
 {
     public interface IAtletaRepository
     {
-        public Atleta GetAtleta(int id);
-        public IEnumerable<Atleta> GetAll();
-        public IEnumerable<Atleta> GetAllForCountry();
-        public Atleta Save(Atleta atleta);
-        public Atleta Update(Atleta atleta);
-        public void Delete(int id);
+        Task<Atleta> GetAtleta(int id);
+        Atleta Save(Atleta atleta);
+        Task<List<Atleta>> GetAll();
+        void Update(Atleta atleta);
     }
 }

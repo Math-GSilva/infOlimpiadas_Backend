@@ -30,5 +30,26 @@ namespace infolimpiadas.API.Controllers
             return Ok(users.Entity);
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var entity = _db.Paises.FirstOrDefault(e => e.Id == id);
+            if (entity != null)
+                _db.Paises.Remove(entity);
+
+            return Ok("Removido com sucesso!");
+        }
+
+        [HttpPut]
+        public IActionResult Update([FromBody] Pais pais)
+        {
+            var entity = _db.Paises.FirstOrDefault(e => e.Id == pais.Id);
+            if (entity != null)
+                _db.Entry(entity).CurrentValues.SetValues(pais);
+
+            return Ok(_db.Paises.FirstOrDefault(e => e.Id == pais.Id));
+        }
+
     }
 }
