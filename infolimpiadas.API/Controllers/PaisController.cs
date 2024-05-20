@@ -27,6 +27,8 @@ namespace infolimpiadas.API.Controllers
         {
             var users = _db.Paises.Add(pàis);
 
+            _db.SaveChanges();
+
             return Ok(users.Entity);
         }
 
@@ -38,6 +40,8 @@ namespace infolimpiadas.API.Controllers
             if (entity != null)
                 _db.Paises.Remove(entity);
 
+            _db.SaveChanges();
+
             return Ok("Removido com sucesso!");
         }
 
@@ -47,6 +51,8 @@ namespace infolimpiadas.API.Controllers
             var entity = _db.Paises.FirstOrDefault(e => e.Id == pais.Id);
             if (entity != null)
                 _db.Entry(entity).CurrentValues.SetValues(pais);
+
+            _db.SaveChanges();
 
             return Ok(_db.Paises.FirstOrDefault(e => e.Id == pais.Id));
         }

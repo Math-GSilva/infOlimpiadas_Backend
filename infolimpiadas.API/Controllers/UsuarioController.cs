@@ -1,6 +1,11 @@
 ﻿using infolimpiadas.Domain.Entity;
+using infolimpiadas.Domain.Service;
 using infOlimpiadas.Infra;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace infolimpiadas.API.Controllers
 {
@@ -8,48 +13,55 @@ namespace infolimpiadas.API.Controllers
     [Route("[controller]")]
     public class UsuarioController : Controller
     {
-        private UsuarioDbContext _db;
+        private IUsuarioService usuarioService;
+        private IConfiguration configuration;
 
-        public UsuarioController(UsuarioDbContext db)
+        public UsuarioController(IUsuarioService usuarioService, IConfiguration configuration)
         {
-            _db = db;
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var atletas = _db.Usuarios.ToList();
-            return Ok(atletas);
+            this.usuarioService = usuarioService;
+            this.configuration = configuration;
         }
 
         [HttpPost]
-        public IActionResult Add(Usuario usuario)
+        public IActionResult Add([FromBody]Usuario usuario)
         {
-            var users = _db.Usuarios.Add(usuario);
-
-            return Ok(users.Entity);
+            return Ok(usuarioService.SaveUsuario(usuario));
         }
 
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult Delete(int id)
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] Usuario usuario)
         {
-            var entity = _db.Usuarios.FirstOrDefault(e => e.Id == id);
-            if (entity != null)
-                _db.Usuarios.Remove(entity);
+            bool valid = await usuarioService.Login(usuario);
+            if (valid)
+            {
+                return Ok(GenerateJwtToken(usuario.Email));
+            }
 
-            return Ok("Removido com sucesso!");
+            return Unauthorized();
         }
 
-        [HttpPut]
-        public IActionResult Update([FromBody] Usuario usuario)
+        private string GenerateJwtToken(string username)
         {
-            var entity = _db.Usuarios.FirstOrDefault(e => e.Id == usuario.Id);
-            if (entity != null)
-                _db.Entry(entity).CurrentValues.SetValues(usuario);
+            var calims = new[]
+            {
+                new Claim("user", username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
-            return Ok(_db.Usuarios.FirstOrDefault(e => e.Id == usuario.Id));
+            var privateKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+
+            var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
+
+            var expiration = DateTime.UtcNow.AddMinutes(5);
+
+            JwtSecurityToken token = new JwtSecurityToken(
+                claims: calims,
+                expires: expiration,
+                signingCredentials: credentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token); 
         }
-
     }
 }

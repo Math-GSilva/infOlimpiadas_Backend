@@ -8,6 +8,7 @@ namespace infolimpiadas.Domain.Entity
     public class Usuario : IEntity<int>
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }

@@ -8,6 +8,7 @@ namespace infolimpiadas.Domain.Entity
     public class Medalha : IEntity<int>
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Cor { get; set; }
         public DateTime DataConquista { get; set; }

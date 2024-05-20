@@ -1,4 +1,5 @@
 ﻿using infolimpiadas.Domain.Entity;
+using infolimpiadas.Domain.Repository;
 using infOlimpiadas.Infra;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,52 +9,49 @@ namespace infolimpiadas.API.Controllers
     [Route("[controller]")]
     public class AtletaController : Controller
     {
-        private AtletaDbContext _db;
+        private IAtletaRepository atletaRepository;
 
-        public AtletaController(AtletaDbContext db)
+        public AtletaController(IAtletaRepository atletaRepository)
         {
-            _db = db;
+            this.atletaRepository = atletaRepository;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var atletas = _db.Atletas.ToList();
+            var atletas = await atletaRepository.GetAll();
             return Ok(atletas);
         }
 
         [HttpPost]
         public IActionResult Add([FromBody]Atleta atleta)
         {
-            var users = _db.Atletas.Add(atleta);
+            var objecto = atletaRepository.Save(atleta);
 
-            _db.SaveChanges();
-
-            return Ok(users.Entity);
+            return Ok(objecto);
         }
 
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var entity = _db.Atletas.FirstOrDefault(e => e.Id == id);
-            if(entity != null)
-                _db.Atletas.Remove(entity);
+        //[HttpDelete]
+        //[Route("{id}")]
+        //public async Task<IActionResult> DeleteAsync(int id)
+        //{
+        //    var list = await atletaRepository.GetAll();
+        //    var entity = list.FirstOrDefault(e => e.Id == id);
+        //    if(entity != null)
+        //        atletaRepository.Remove(entity);
 
-            _db.SaveChanges();
-            return Ok("Removido com sucesso!");
-        }
+        //    _db.SaveChanges();
+        //    return Ok("Removido com sucesso!");
+        //}
 
         [HttpPut]
-        public IActionResult Update([FromBody] Atleta atleta)
+        public async Task<IActionResult> Update([FromBody] Atleta atleta)
         {
-            var entity = _db.Atletas.FirstOrDefault(e => e.Id == atleta.Id);
+            var entity = await atletaRepository.GetAtleta(atleta.Id);
             if (entity != null)
-                _db.Entry(entity).CurrentValues.SetValues(atleta);
+                atletaRepository.Update(entity);
 
-            _db.SaveChanges();
-
-            return Ok(_db.Atletas.FirstOrDefault(e => e.Id == atleta.Id));
+            return Ok();
         }
     }
 }

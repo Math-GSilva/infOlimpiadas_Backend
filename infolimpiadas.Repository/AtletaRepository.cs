@@ -16,8 +16,8 @@ namespace infolimpiadas.Repository
 
         public Atleta Save(Atleta atleta) => Add(atleta);
 
-        public Task<List<Atleta>> GetAll() => base.GetAll();
+        public Task<List<Atleta>> GetAllAtleta() => base.GetAll();
 
-        public void Update(Atleta atleta) => base.Update(atleta);
+        public void UpdateAtleta(Atleta atleta) => base.Update(atleta);
     }
 }

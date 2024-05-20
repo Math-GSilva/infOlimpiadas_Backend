@@ -27,6 +27,8 @@ namespace infolimpiadas.API.Controllers
         {
             var users = _db.Modalidades.Add(modalidade);
 
+            _db.SaveChanges();
+
             return Ok(users.Entity);
         }
 
@@ -38,6 +40,8 @@ namespace infolimpiadas.API.Controllers
             if (entity != null)
                 _db.Modalidades.Remove(entity);
 
+            _db.SaveChanges();
+
             return Ok("Removido com sucesso!");
         }
 
@@ -47,6 +51,8 @@ namespace infolimpiadas.API.Controllers
             var entity = _db.Modalidades.FirstOrDefault(e => e.Id == modalidade.Id);
             if (entity != null)
                 _db.Entry(entity).CurrentValues.SetValues(modalidade);
+
+            _db.SaveChanges();
 
             return Ok(_db.Modalidades.FirstOrDefault(e => e.Id == modalidade.Id));
         }

@@ -9,11 +9,9 @@ namespace infolimpiadas.Domain.Repository
 {
     public interface IPaisRepository
     {
-        public Pais GetPais(int id);
-        public IEnumerable<Pais> GetAll();
-        public IEnumerable<Pais> GetAllForCountry();
+        public Task<Pais> GetPais(int id);
         public Pais Save(Pais pais);
-        public Pais Update(Pais pais);
-        public void Delete(int id);
+        public Task<List<Pais>> GetAllPaiss();
+        public void UpdatePais(Pais pais);
     }
 }

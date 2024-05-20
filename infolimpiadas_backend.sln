@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infolimpiadas.Service", "in
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infolimpiadas.Test", "infolimpiadas.Test\infolimpiadas.Test.csproj", "{069DD06D-C168-4328-8A97-DB3A146711E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infolimpiadas.Infra", "infOlimpiadas.Infra\infolimpiadas.Infra.csproj", "{9784E53E-3374-4A96-8F59-8E1AE927D836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infolimpiadas.Infra", "infOlimpiadas.Infra\infolimpiadas.Infra.csproj", "{9784E53E-3374-4A96-8F59-8E1AE927D836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

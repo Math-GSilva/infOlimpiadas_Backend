@@ -9,11 +9,9 @@ namespace infolimpiadas.Domain.Repository
 {
     public interface IUsuarioRepository
     {
-        public Usuario GetUsuario(int id);
-        public IEnumerable<Usuario> GetAll();
-        public IEnumerable<Usuario> GetAllForCountry();
+        public Task<Usuario?> GetUsuario(string user);
         public Usuario Save(Usuario usuario);
-        public Usuario Update(Usuario usuario);
-        public void Delete(int id);
+        public Task<List<Usuario>> GetAllUsuarios();
+        public void UpdateUsuario(Usuario usuario);
     }
 }

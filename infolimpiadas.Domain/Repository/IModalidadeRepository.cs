@@ -9,11 +9,10 @@ namespace infolimpiadas.Domain.Repository
 {
     public interface IModalidadeRepository
     {
-        public Modalidade GetModalidade(int id);
-        public IEnumerable<Modalidade> GetAll();
-        public IEnumerable<Modalidade> GetAllForCountry();
+        public Task<Modalidade> GetModalidade(int id);
         public Modalidade Save(Modalidade modalidade);
-        public Modalidade Update(Modalidade modalidade);
-        public void Delete(int id);
+        public Task<List<Modalidade>> GetAllModalidades();
+        public void UpdateModalidade(Modalidade modalidade);
+
     }
 }

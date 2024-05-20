@@ -51,7 +51,12 @@ namespace infolimpiadas.Repository
 
         public virtual TEntity Add(TEntity entity)
         {
-            _db.Set<TEntity>().Add(entity);
+            try
+            {
+                _db.Set<TEntity>().Add(entity);
+                _db.SaveChanges();
+                return entity;
+            } catch (Exception ex) { }
             return entity;
         }
 

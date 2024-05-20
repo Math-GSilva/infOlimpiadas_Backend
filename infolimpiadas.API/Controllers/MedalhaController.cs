@@ -1,4 +1,5 @@
 ﻿using infolimpiadas.Domain.Entity;
+using infolimpiadas.Domain.Repository;
 using infOlimpiadas.Infra;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,47 +9,49 @@ namespace infolimpiadas.API.Controllers
     [Route("[controller]")]
     public class MedalhaController : Controller
     {
-        private MedalhaDbContext _db;
+        private IMedalhaRepository medalhaRepository;
 
-        public MedalhaController(MedalhaDbContext db)
+        public MedalhaController(IMedalhaRepository medalhaRepository)
         {
-            _db = db;
+            this.medalhaRepository = medalhaRepository;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
-            var atletas = _db.Medalhas.ToList();
+            var atletas = medalhaRepository.GetAllMedalhas();
             return Ok(atletas);
         }
 
         [HttpPost]
         public IActionResult Add(Medalha medalha)
         {
-            var users = _db.Medalhas.Add(medalha);
+            var medalhaObj = medalhaRepository.Save(medalha);
 
-            return Ok(users.Entity);
+            return Ok(medalhaObj);
         }
 
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var entity = _db.Medalhas.FirstOrDefault(e => e.Id == id);
-            if (entity != null)
-                _db.Medalhas.Remove(entity);
+        //[HttpDelete]
+        //[Route("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    var entity = _db.Medalhas.FirstOrDefault(e => e.Id == id);
+        //    if (entity != null)
+        //        _db.Medalhas.Remove(entity);
 
-            return Ok("Removido com sucesso!");
-        }
+        //    _db.SaveChanges();
+
+        //    return Ok("Removido com sucesso!");
+        //}
 
         [HttpPut]
         public IActionResult Update([FromBody] Medalha medalha)
         {
-            var entity = _db.Medalhas.FirstOrDefault(e => e.Id == medalha.Id);
+            var entity = medalhaRepository.GetMedalha(medalha.Id);
             if (entity != null)
-                _db.Entry(entity).CurrentValues.SetValues(medalha);
+                medalhaRepository.Save(medalha);
 
-            return Ok(_db.Medalhas.FirstOrDefault(e => e.Id == medalha.Id));
+            return Ok();
         }
     }
 }

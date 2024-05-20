@@ -8,6 +8,7 @@ namespace infolimpiadas.Domain.Entity
     public class Modalidade : IEntity<int>
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Nome { get; set; }
     }

@@ -4,11 +4,10 @@ namespace infolimpiadas.Domain.Repository
 {
     public interface IMedalhaRepository
     {
-        public Medalha GetMedalha(int id);
-        public IEnumerable<Medalha> GetAll();
-        public IEnumerable<Medalha> GetAllForCountry();
+        public Task<Medalha> GetMedalha(int id);
         public Medalha Save(Medalha atleta);
-        public Medalha Update(Medalha atleta);
-        public void Delete(int id);
+        public Task<List<Medalha>> GetAllMedalhas();
+        public void UpdateMedalha(Medalha atleta);
+
     }
 }
