@@ -1,6 +1,7 @@
 ﻿using infolimpiadas.Domain.Entity;
 using infolimpiadas.Domain.Service;
 using infOlimpiadas.Infra;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,17 +12,8 @@ namespace infolimpiadas.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsuarioController : Controller
+    public class UsuarioController(IUsuarioService usuarioService, IConfiguration configuration) : Controller
     {
-        private IUsuarioService usuarioService;
-        private IConfiguration configuration;
-
-        public UsuarioController(IUsuarioService usuarioService, IConfiguration configuration)
-        {
-            this.usuarioService = usuarioService;
-            this.configuration = configuration;
-        }
-
         [HttpPost]
         public IActionResult Add([FromBody]Usuario usuario)
         {
@@ -30,12 +22,12 @@ namespace infolimpiadas.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] Usuario usuario)
+        public async Task<IActionResult> Login([FromBody] LoginRequestCommand login)
         {
-            bool valid = await usuarioService.Login(usuario);
+            bool valid = await usuarioService.Login(login);
             if (valid)
             {
-                return Ok(GenerateJwtToken(usuario.Email));
+                return Ok(GenerateJwtToken(login.Email));
             }
 
             return Unauthorized();

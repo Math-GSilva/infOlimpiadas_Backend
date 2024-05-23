@@ -5,6 +5,6 @@ namespace infolimpiadas.Domain.Service
     public interface IUsuarioService
     {
         public Usuario SaveUsuario(Usuario usuario);
-        public Task<bool> Login (Usuario usuario);
+        public Task<bool> Login (LoginRequestCommand login);
     }
 }

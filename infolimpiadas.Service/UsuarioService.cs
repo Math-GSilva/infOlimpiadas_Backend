@@ -16,17 +16,17 @@ namespace infolimpiadas.Service
             this.usuarioRepository = usuarioRepository;
         }
 
-        public async Task<bool> Login(Usuario usuario)
+        public async Task<bool> Login(LoginRequestCommand login)
         {
-            var user = await usuarioRepository.GetUsuario(usuario.Email);
+            var user = await usuarioRepository.GetUsuario(login.Email);
             if(user == null)
             {
                 return false;
             }
             else
             {
-                var senhaDigitada = BCrypt.Net.BCrypt.HashPassword(usuario.Password);
-                if(senhaDigitada == user.Password)
+                bool isValid = BCrypt.Net.BCrypt.Verify(login.Password, user.Password);
+                if(isValid)
                 {
                     return true;
                 }
