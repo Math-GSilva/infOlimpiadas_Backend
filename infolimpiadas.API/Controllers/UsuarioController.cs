@@ -52,7 +52,7 @@ namespace infolimpiadas.API.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var privateKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var privateKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecretkey1asdasdasdasdsdfsdarfgdsfg2345678"));
 
             var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
 
@@ -76,7 +76,7 @@ namespace infolimpiadas.API.Controllers
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecretkey1asdasdasdasdsdfsdarfgdsfg2345678")),
             };
 
             try

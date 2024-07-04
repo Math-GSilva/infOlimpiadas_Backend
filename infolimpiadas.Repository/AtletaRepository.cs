@@ -4,7 +4,7 @@ using infOlimpiadas.Infra;
 
 namespace infolimpiadas.Repository
 {
-    public class AtletaRepository : BaseRepository<Atleta, int>, IAtletaRepository
+    public class AtletaRepository : BaseRepository<Atleta, string>, IAtletaRepository
     {
         public AtletaRepository() { }
 
@@ -12,7 +12,7 @@ namespace infolimpiadas.Repository
             : base(db)
         {
         }
-        public async Task<Atleta> GetAtleta(int id) => await Get(id);
+        public async Task<Atleta> GetAtleta(string id) => await Get(id);
 
         public Atleta Save(Atleta atleta) => Add(atleta);
 

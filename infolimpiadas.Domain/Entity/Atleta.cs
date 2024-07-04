@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace infolimpiadas.Domain.Entity
 {
     [Table("Atleta")]
-    public class Atleta : IEntity<int>
+    public class Atleta : IEntity<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         //public Pais Naturalidade { get; set; }
